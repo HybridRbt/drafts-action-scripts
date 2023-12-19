@@ -1,5 +1,15 @@
-// find today's DNP; create if none exist
-var title = "# " + Date.today().toString("yyyy-MM-dd");
+//add creation time
+var currentContent = draft.processTemplate("[[created|%H:%M:%S]]\n") + draft.content;
+
+// If the current draft doesn't end with a newline, then add one.
+if (currentContent.slice(-1) != "\n") {
+	currentContent = currentContent + "\n\n";
+}
+
+// find record's DNP; create if none exist
+var title = "# " + draft.createdAt.toString("yyyy-MM-dd\n");
+title += "**"+draft.processTemplate("[[created|%A]]")+"**\n";
+title += "#"+ draft.processTemplate("[[created|%Y]]/W[[created|%W]]");
 
 var drafts = Draft.query(title, "inbox");
 
@@ -21,14 +31,6 @@ else if (drafts.length == 0) {
 else {
     // just found 1, this is the target
 	var target = drafts[0];
-}
-
-//add creation time
-var currentContent = draft.processTemplate("[[created|%H:%M:%S]]\n") + draft.content;
-
-// If the current draft doesn't end with a newline, then add one.
-if (currentContent.slice(-1) != "\n") {
-	currentContent = currentContent + "\n\n";
 }
 
 var existingContent = target.content;
