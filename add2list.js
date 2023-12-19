@@ -89,7 +89,7 @@
 			d.addTag(listTag);
 		}
 
-		const item = '- [ ] ' + draft.content.trim();
+		const item = draft.content.trim().split('\n').map(x => '- [ ] ' + x).join('\n');
 		const fn = appendItem ? append : prepend;
 		d.content = fn(d.content, item);
 		d.update();
